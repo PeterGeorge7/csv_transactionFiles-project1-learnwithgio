@@ -40,7 +40,7 @@ Here is an example of what the table should look like
 
 ![Sample Output](result.png)
 # break Tasks:
- 1- read all csv files
- 2- store in array
- 3- date format
- 4- calc income & expense & net total
+ * 1- read all csv files
+ * 2- store in array
+ * 3- date format
+ * 4- calc income & expense & net total

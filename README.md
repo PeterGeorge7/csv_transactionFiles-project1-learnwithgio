@@ -39,8 +39,8 @@ https://www.youtube.com/watch?v=sVbEyFZKgqk&list=PLr3d3QYzkw2xabQRUpcZ_IBk9W50M9
 Here is an example of what the table should look like
 
 ![Sample Output](result.png)
-# 1- read all csv files
-# 2- store in array
-# 3- calc income & expense & net total
-# 4- date format
-# 5- how to create uploading status
+# break Tasks:
+ 1- read all csv files
+ 2- store in array
+ 3- date format
+ 4- calc income & expense & net total

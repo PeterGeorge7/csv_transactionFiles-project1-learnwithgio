@@ -38,17 +38,17 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (isset($transactions)) : ?>
-                <?php foreach ($transactions as $transaction) { ?>
+            <?php if (isset($formatedTransactions)) : ?>
+                <?php foreach ($formatedTransactions as $transaction) { ?>
                     <tr>
-                        <td><?php echo date("M j,Y", strtotime($transaction[0])) ?></td>
-                        <td><?php echo $transaction[1] ?></td>
-                        <td><?php echo $transaction[2] ?></td>
-                        <?php if (extractAmount($transaction) > 0) : ?>
-                            <td style="color:green"><?= $transaction[3] ?></td>
+                        <td><?php echo date("M j,Y", strtotime($transaction['date'])) ?></td>
+                        <td><?php echo $transaction['check'] ?></td>
+                        <td><?php echo $transaction['desc'] ?></td>
+                        <?php if ($transaction['amount'] > 0) : ?>
+                            <td style="color:green"><?= formatFloatToText($transaction['amount']) ?></td>
                         <?php
-                        elseif (extractAmount($transaction) < 0) : ?>
-                            <td style="color:red"><?= $transaction[3] ?></td>
+                        elseif ($transaction['amount'] < 0) : ?>
+                            <td style="color:red"><?= formatFloatToText($transaction['amount']) ?></td>
                         <?php endif; ?>
                     </tr>
                 <?php } ?>
@@ -57,15 +57,15 @@
         <tfoot>
             <tr>
                 <th colspan="3">Total Income:</th>
-                <td><?php echo number_format(totalCalc($transactions)['income'], 2) ?></td>
+                <td><?php echo formatFloatToText($totals['income']) ?></td>
             </tr>
             <tr>
                 <th colspan="3">Total Expense:</th>
-                <td><?php echo number_format(totalCalc($transactions)['expense'], 2) ?></td>
+                <td><?php echo formatFloatToText($totals['expense']) ?></td>
             </tr>
             <tr>
                 <th colspan="3">Net Total:</th>
-                <td><?php echo number_format(totalCalc($transactions)['netTotal'], 2) ?></td>
+                <td><?php echo formatFloatToText($totals['netTotal']) ?></td>
             </tr>
         </tfoot>
     </table>

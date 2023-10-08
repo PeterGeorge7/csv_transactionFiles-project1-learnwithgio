@@ -19,21 +19,24 @@ function getAllFilesNames(string $dirPath): array
 }
 
 
-
 /**
  * Summary of getTransaction
  * @param array $files
+ * @param mixed $transactionHandler
  * @return array
  */
-function getTransaction(array $files): array
+function getTransaction(array $files, ?callable $transactionHandler = null): array
 {
     $transactions = [];
-    $rowNum = 1;
+    $rowNum = 1; // to ignore first row in csv
     foreach ($files as $file) {
         if (($fileStream = fopen($file, "r")) != false) {
-            while (($row = fgetcsv($fileStream, filesize($file), ",")) != false) {
-                if ($rowNum > 1) {
-                    $transactions[] = $row;
+            while (($transactionRow = fgetcsv($fileStream)) != false) {
+                if($rowNum > 1){
+                    if ($transactionHandler !== null) {
+                        $transactionRow = $transactionHandler($transactionRow);
+                    }
+                    $transactions[] = $transactionRow;
                 }
                 $rowNum++;
             }
@@ -43,36 +46,52 @@ function getTransaction(array $files): array
 }
 
 /**
- * Summary of extractAmount
- * @param array $transaction
- * @return float 
+ * Summary of extractKeyValueTransaction
+ * @param array $transactionRow
+ * @return array 
  */
-function extractAmount(array $transaction): float
+function extractKeyValueTransactions(array $transactionRow): array
 {
-    [$date, $check, $desc, $amount] = $transaction;
+    // ! what if i have more files with diffrent formats then will makesomething Diffrent in code debend on this case
+    [$date, $check, $desc, $amount] = $transactionRow;
     $formatedAmount = (float) str_replace(['$', ','], '', $amount);
-    return $formatedAmount;
+    // return formated Amount with key=> value;
+    return [
+        'date' => $date,
+        'check' => $check,
+        'desc' => $desc,
+        'amount' => $formatedAmount
+    ];
 }
 
 /**
  * Summary of totalCalc
- * @param array $transaction
+ * @param array $formatedTransactions
  * @return array 
  */
-function totalCalc(array $transactions): array
+
+// * in first update i have sent the pre-formated array then reformat here
+// * but in tutorial in the public we record all formated and send the formated to make less dependence in the func.
+function totalCalc(array $formatedTransactions): array
 {
     $totalCalced = [
         'income' => 0,
         'expense' => 0,
         'netTotal' => 0
     ];
-    foreach ($transactions as $transaction) {
-        if (extractAmount($transaction) > 0) {
-            $totalCalced['income'] += extractAmount($transaction);
+    foreach ($formatedTransactions as $transaction) {
+        $totalCalced['netTotal'] += $transaction['amount'];
+        if ($transaction['amount'] > 0) {
+            $totalCalced['income'] += $transaction['amount'];
         } else {
-            $totalCalced['expense'] += extractAmount($transaction);
+            $totalCalced['expense'] += $transaction['amount'];
         }
     }
-    $totalCalced['netTotal'] = $totalCalced['income'] - abs($totalCalced['expense']);
+    // its a way but i found another one in the first line in foreach
+    //  $totalCalced['netTotal'] = $totalCalced['income'] - abs($totalCalced['expense']);
+    // return array of final records
     return $totalCalced;
 }
+
+
+// ! with the mentor we prefer to make the formating for text and this things in the view or in layer between them so we have craeted helper.php to use in view to fomat our text,floats & date 

@@ -10,8 +10,16 @@ define('VIEWS_PATH', $root . 'views' . DIRECTORY_SEPARATOR);
 
 /* YOUR CODE (Instructions in README.md) */
 
-include(APP_PATH . "App.php");
-$files = getAllFilesNames(FILES_PATH);
-$transactions = getTransaction($files);
-include(VIEWS_PATH."transactions.php");
+require(APP_PATH . "App.php");
 
+$AllfilesArray = getAllFilesNames(FILES_PATH);
+
+
+$transactions = getTransaction($AllfilesArray,'extractKeyValueTransactions');
+
+$formatedTransactions = [];
+$formatedTransactions = array_merge($formatedTransactions, $transactions);
+
+$totals = totalCalc($formatedTransactions);
+require(APP_PATH."helper.php");
+require(VIEWS_PATH . "transactions.php");

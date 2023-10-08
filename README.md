@@ -1,30 +1,11 @@
-#### The project for the PHP course "Learn PHP The Right Way".
+### Tasks:
+#### 1- read all csv files
+#### 2- store in array
+#### 3- calc income & expense & net total
+#### 4- date format
 
-
-#### Instructions for the project
-1. Set document root to _YOUR_PROJECT/public_, that way the site is loaded from _public/index.php_
-   * You should include/require all other files in _index.php_, that's your main file
-   * You can use APP_PATH, FILES_PATH & VIEWS_PATH constants that are defined in _index.php_ to help you with including files
-2. Main code should go in app directory in any file that you choose, I created empty App.php that you can use to place your main logic but feel free to change it
-   * You should define multiple functions there which will read **all** files within _transaction_files_ directory and process them. It is up to you how you want to read those files, but the goal is to read all files within that directory
-   * You can assume that all files within _transaction_files_ directory are **.csv** files
-   * One sample file is provided which contains formatted data
-   * You can assume that all files in _transaction_files_ directory will be of same format for now
-3. Store data in memory (in an array)
-   * First column is the date of the transaction
-   * Second column is the check # which is optional & is not always provided
-   * The third column is transaction description
-   * The fourth column is the amount (negative number indicates it's an expense, positive number indicates it's an income)
-4. Calculate the total income, total expense & net total (total income - total expense)
-5. Print a simple HTML table containing all the data from the files
-   * The html skeleton is provided in views/transactions.php file
-   * The date of the transaction should be in this format "Jan 4, 2021"
-   * Show income amounts in green color & show expense amounts in red
-
-Here is an example of what the table should look like
-
-![Sample Output](result.png)
-# 1- read all csv files
-# 2- store in array
-# 3- calc income & expense & net total
-# 4- date format
+### explaining How Final Code Works..
+#### 1- first of all the logic gone in App.php 
+#### 2- getTransactions takes the result of getAllFilesNames that return all files in the files folder to get all transactions line in all files
+#### 3- then inside the getTransactions it checks if there is a callable handler can be diffrence if there is diffrent formats in files and save the formated with key => value array to be easily access 
+#### 4- then in index.php in the public we require all of logic and view then make the connection between them in code

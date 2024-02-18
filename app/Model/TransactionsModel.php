@@ -46,4 +46,14 @@ class TransactionsModel extends \App\Model
         $transactionsAmount = $stmt->fetchAll();
         return $transactionsAmount;
     }
+
+    public function selectTransactionDataById(int $id)
+    {
+        $stmt = $this->db->prepare('SELECT *
+                                    FROM transactions
+                                    WHERE id = ?');
+        $stmt->execute([$id]);
+        $transactionData = $stmt->fetch();
+        return $transactionData;
+    }
 }

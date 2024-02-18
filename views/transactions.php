@@ -24,6 +24,13 @@
         tfoot tr th {
             text-align: right;
         }
+
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -41,6 +48,7 @@
                     <th>Check #</th>
                     <th>Description</th>
                     <th>Amount</th>
+                    <th>Show</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,6 +63,7 @@
                         <?php
                         echo (substr($row['amount'], 0, 1) === '-') ? 'red' : 'green';
                         ?>;"><?= $row['amount'] ?></td>
+                        <td><a href="/transactions/transactions-details?id=<?=$row['id']?>">Show Details</a></td>
                     </tr>
                 <?php
                 endforeach;
